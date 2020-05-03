@@ -11,11 +11,13 @@ pipeline {
                  '''
              }
          }
+         */
          stage('Lint HTML') {
               steps {
                   sh 'tidy -q -e *.html'
               }
          }
+         /*
          stage('Security Scan') {
               steps { 
                  //aquaMicroscanner imageName: 'alpine:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat 'html'
@@ -26,7 +28,7 @@ pipeline {
          stage('Upload to AWS') {
               steps {
                   withAWS(region:'us-west-2',credentials:'aws-static-up') {
-                  sh 'echo "Uploading content with AWS creds"'
+                  sh 'echo "Uploading content with AWS creds to S3"'
                       s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'cdoe-proj-aws-static')
                   }
               }
